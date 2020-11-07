@@ -2,7 +2,7 @@
 
 NSD Final Project.
 
-## Compilation
+## Build & Test
 
 1. Execute CMake
 
@@ -17,3 +17,12 @@ cmake ..
 ```bash
 make
 ```
+
+3. Run test
+
+```bash
+ctest
+```
+
+If there's any failed test, just execute the executable of that test directly to see the cause of failure.
+Executables of unittests are prefixed with "unittest_".
