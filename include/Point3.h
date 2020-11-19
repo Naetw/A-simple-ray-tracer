@@ -15,6 +15,7 @@ class Point3 {
 
     Point3() : m_coordinate{0, 0, 0} {}
     Point3(double x, double y, double z) : m_coordinate{x, y, z} {}
+    Point3(const Point3 &other) : m_coordinate{other.x(), other.y(), other.z()} {}
 
     double x() const { return m_coordinate[0]; }
     double y() const { return m_coordinate[1]; }

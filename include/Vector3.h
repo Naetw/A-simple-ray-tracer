@@ -15,6 +15,7 @@ class Vector3 {
     Vector3() : m_components{0, 0, 0} {}
     Vector3(double x, double y, double z) : m_components{x, y, z} {}
     Vector3(double factor) : m_components{factor, factor, factor} {}
+    Vector3(const Vector3 &other) : m_components{other.x(), other.y(), other.z()} {}
 
     double x() const { return m_components[0]; }
     double y() const { return m_components[1]; }
@@ -30,5 +31,7 @@ class Vector3 {
 Vector3 operator*(const Vector3 &factor, const Vector3 &vec);
 
 Vector3 operator/(const Vector3 &vec, const Vector3 &divisor);
+
+double dot(const Vector3 &u, const Vector3 &v);
 
 #endif

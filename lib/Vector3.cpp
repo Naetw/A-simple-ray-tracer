@@ -4,9 +4,7 @@
 
 // FIXME: see if this can only be calculated once
 double Vector3::length() const {
-    return sqrt(m_components[0] * m_components[0] +
-                m_components[1] * m_components[1] +
-                m_components[2] * m_components[2]);
+    return sqrt(dot(*this, *this));
 }
 
 // FIXME: see if this can only be calculated once
@@ -24,4 +22,10 @@ Vector3 operator/(const Vector3 &vec, const Vector3 &divisor) {
     return Vector3(vec.x() / divisor.x(),
                    vec.y() / divisor.y(),
                    vec.z() / divisor.z());
+}
+
+double dot(const Vector3 &u, const Vector3 &v) {
+    return u.x() * v.x() +
+           u.y() * v.y() +
+           u.z() * v.z();
 }
