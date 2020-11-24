@@ -17,13 +17,15 @@ class Sphere : public Hittable {
     Sphere() = default;
     Sphere(const Point3 &c, const double r) : m_center(c), m_radius(r) {}
 
-    /// This method calculates the discriminant (b^2 - 4ac) according to
-    /// passed-in Ray
-    double calculateDiscriminant(const Ray& ray) const;
+    const Point3 &center() const { return m_center; }
+    double radius() const { return m_radius; }
 
-    /// This method just uses the result of method
+    /// This method just uses the result of static helper function
     /// calculateDiscriminant to determine whether there's a hit
-    virtual bool hit(const Ray& ray) const override;
+    virtual bool hit(const Ray &ray) const override;
+
+    virtual HitRecord getHitRecord(const Ray &ray, double t_min,
+                                   double t_max) const override;
 };
 
 #endif

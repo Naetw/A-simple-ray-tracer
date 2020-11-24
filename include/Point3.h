@@ -21,6 +21,7 @@ class Point3 {
     double y() const { return m_coordinate[1]; }
     double z() const { return m_coordinate[2]; }
 
+    bool isInfinity() const;
 };
 
 Point3 operator+(const Point3 &point, const Vector3 &vec);

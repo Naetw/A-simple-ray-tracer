@@ -2,6 +2,7 @@
 #include "catch2/catch.hpp"
 
 #include "Vector3.h"
+#include "Utility.h"
 #include "Point3.h"
 
 TEST_CASE("Trival operation (getter)") {
@@ -10,6 +11,14 @@ TEST_CASE("Trival operation (getter)") {
     REQUIRE(p1.x() == 19.22);
     REQUIRE(p1.y() == -11.13);
     REQUIRE(p1.z() == 12.02);
+}
+
+TEST_CASE("Method isInfinity") {
+    Point3 inf(kInfinity, kInfinity, kInfinity);
+    Point3 noninf(-2, 1, -10);
+
+    REQUIRE(inf.isInfinity() == true);
+    REQUIRE(noninf.isInfinity() == false);
 }
 
 TEST_CASE("operator+ on a point and a vector") {

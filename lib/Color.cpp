@@ -1,5 +1,7 @@
 #include "Color.h"
 
+#include <cstdint>
+
 Color operator+(const Color &color1, const Color &color2) {
     return Color(color1.r() + color2.r(),
                  color1.g() + color2.g(),

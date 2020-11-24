@@ -24,6 +24,8 @@ class Vector3 {
     double length() const;
 
     Vector3 getUnitVector() const;
+
+    Vector3 operator-() const;
 };
 
 /// Used for scalar multiplication

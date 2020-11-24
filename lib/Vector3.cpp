@@ -12,6 +12,10 @@ Vector3 Vector3::getUnitVector() const {
     return *this / length();
 }
 
+Vector3 Vector3::operator-() const {
+    return Vector3(-m_components[0], -m_components[1], -m_components[2]);
+}
+
 Vector3 operator*(const Vector3 &factor, const Vector3 &vec) {
     return Vector3(factor.x() * vec.x(),
                    factor.y() * vec.y(),

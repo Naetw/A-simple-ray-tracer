@@ -30,6 +30,15 @@ TEST_CASE("Method getUnitVector") {
     REQUIRE(v1.getUnitVector().z() == v2.getUnitVector().z());
 }
 
+TEST_CASE("operator- on a vector") {
+    Vector3 v1(2, 2, 2);
+
+    const Vector3 &v2 = -v1;
+    REQUIRE(v2.x() == -2);
+    REQUIRE(v2.y() == -2);
+    REQUIRE(v2.z() == -2);
+}
+
 TEST_CASE("operator* on two vectors") {
     Vector3 v1(2, 2, 2);
     Vector3 v2(0.0, 3.3, 21.59);

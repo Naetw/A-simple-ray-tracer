@@ -1,7 +1,8 @@
 #ifndef RAYTRACER_COLOR_H
 #define RAYTRACER_COLOR_H
 
-#include <cstdint>
+#include "Vector3.h"
+
 #include <iostream>
 
 /// This class stores colors (RGB) 
@@ -15,6 +16,13 @@ class Color {
     Color() : m_pixel{0, 0, 0} {}
     Color(double r, double g, double b) : m_pixel{r, g, b} {}
     Color(double factor) : m_pixel{factor, factor, factor} {}
+    Color(const Vector3 &normal) {
+        // use unit vector for normalizing its range into 0.0 ~ 1.0
+        const Vector3 &unit_vector = normal.getUnitVector();
+        m_pixel[0] = unit_vector.x();
+        m_pixel[1] = unit_vector.y();
+        m_pixel[2] = unit_vector.z();
+    }
 
     double r() const { return m_pixel[0]; }
     double g() const { return m_pixel[1]; }
