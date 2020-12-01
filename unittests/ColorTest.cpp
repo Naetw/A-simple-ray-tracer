@@ -11,6 +11,16 @@ TEST_CASE("Trival operations (getter)") {
     REQUIRE(c1.b() == 12.02);
 }
 
+TEST_CASE("operator+=") {
+    Color c1(2, 2, 2);
+    Color c2(0.0, 3.3, 21.59);
+
+    c1 += c2;
+    REQUIRE(c1.r() == 2.0);
+    REQUIRE(c1.g() == 5.3);
+    REQUIRE(c1.b() == 23.59);
+}
+
 TEST_CASE("operator+ on two colors") {
     Color c1(2, 2, 2);
     Color c2(0.0, 3.3, 21.59);

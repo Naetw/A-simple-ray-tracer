@@ -4,4 +4,5 @@ add_library(raytracer_core STATIC
     Ray.cpp
     Vector3.cpp
     Sphere.cpp
-    HittableList.cpp)
+    HittableList.cpp
+    Utility.cpp)

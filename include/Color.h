@@ -27,12 +27,15 @@ class Color {
     double r() const { return m_pixel[0]; }
     double g() const { return m_pixel[1]; }
     double b() const { return m_pixel[2]; }
+
+    Color &operator+=(const Color &other_color);
 };
 
 Color operator+(const Color &color1, const Color &color2);
 Color operator-(const Color &color1, const Color &color2);
 Color operator*(const Color &factor, const Color &color);
 
-void writeColorToStream(std::ostream &out, const Color &pixel_color);
+void writeColorToStream(std::ostream &out, const Color &pixel_color,
+                        const uint32_t samples_per_pixel);
 
 #endif

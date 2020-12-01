@@ -43,6 +43,7 @@ int main() {
     const auto aspect_ratio = 16.0 / 9.0;
     const int32_t image_width = 400;
     const auto image_height = static_cast<int32_t>(image_width / aspect_ratio);
+    const uint32_t samples_per_pixel = 100;
 
     // World
     HittableList world;
@@ -56,12 +57,18 @@ int main() {
 
     for (auto j = image_height - 1; j >= 0; --j) {
         for (int32_t i = 0; i < image_width; ++i) {
-            auto u = double(i) / (image_width - 1);
-            auto v = double(j) / (image_height - 1);
-            const Ray &ray = camera.getRay(u, v);
-            auto pixel_color = genRayColor(ray, world);
+            Color pixel_color(0, 0, 0);
 
-            writeColorToStream(std::cout, pixel_color);
+            // use multiple samples and random real numbers to blend the colors
+            // of adjacent pixels, in this way, we can achieve simple antialiasing
+            for (uint32_t s = 0; s < samples_per_pixel; ++s) {
+                auto u = (i + getRandomDouble01()) / (image_width - 1);
+                auto v = (j + getRandomDouble01()) / (image_height - 1);
+                const Ray &ray = camera.getRay(u, v);
+                pixel_color += genRayColor(ray, world);
+            }
+
+            writeColorToStream(std::cout, pixel_color, samples_per_pixel);
         }
     }
 }
