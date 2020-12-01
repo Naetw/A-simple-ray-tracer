@@ -1,3 +1,4 @@
+#include "Camera.h"
 #include "Color.h"
 #include "Hittable.h"
 #include "HittableList.h"
@@ -48,18 +49,7 @@ int main() {
     world.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
     world.add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100));
 
-    // Camera
-    // FIXME: This should be modularized.
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    auto origin = Point3(0, 0, 0);
-    auto horizontal_vec = Vector3(viewport_width, 0, 0);
-    auto vertical_vec = Vector3(0, viewport_height, 0);
-    // origin + (0, 0, focal_length) == center of the viewport
-    auto lower_left_corner = origin - (horizontal_vec / 2) -
-                             (vertical_vec / 2) - Vector3(0, 0, focal_length);
+    Camera camera(/* origin */ Point3(0, 0, 0), aspect_ratio, /* viewport_height */ 2.0, /* focal_length */ 1.0);
 
     // Render
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -68,8 +58,7 @@ int main() {
         for (int32_t i = 0; i < image_width; ++i) {
             auto u = double(i) / (image_width - 1);
             auto v = double(j) / (image_height - 1);
-            Ray ray(origin, lower_left_corner + u * horizontal_vec +
-                                v * vertical_vec - origin);
+            const Ray &ray = camera.getRay(u, v);
             auto pixel_color = genRayColor(ray, world);
 
             writeColorToStream(std::cout, pixel_color);
