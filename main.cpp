@@ -22,7 +22,8 @@ Color genRayColor(const Ray &r, const HittableList &world, uint32_t depth) {
     Color white_color(1.0, 1.0, 1.0);
     Color blue_color(0.5, 0.7, 1.0);
 
-    const HitRecord &record = world.getHitRecord(r, 0, kInfinity);
+    // 0.001 for ignoring the hits that the `t` is very close to 0
+    const HitRecord &record = world.getHitRecord(r, 0.001, kInfinity);
     if (!record.point.isInfinity()) {
         // pixel color is determined by the diffuse reflection on the
         // intersection point
