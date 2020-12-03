@@ -1,16 +1,23 @@
 #include "Vector3.h"
+#include "Utility.h"
 
 #include <math.h>
 
-// FIXME: see if this can only be calculated once
-double Vector3::length() const {
-    return sqrt(dot(*this, *this));
+Vector3 Vector3::getRandomVector() {
+    return Vector3(getRandomDouble01(),
+                   getRandomDouble01(),
+                   getRandomDouble01());
+}
+
+Vector3 Vector3::getRandomUnitVector() {
+    return getRandomVector().getUnitVector();
 }
 
 // FIXME: see if this can only be calculated once
-Vector3 Vector3::getUnitVector() const {
-    return *this / length();
-}
+double Vector3::length() const { return sqrt(dot(*this, *this)); }
+
+// FIXME: see if this can only be calculated once
+Vector3 Vector3::getUnitVector() const { return *this / length(); }
 
 Vector3 Vector3::operator-() const {
     return Vector3(-m_components[0], -m_components[1], -m_components[2]);

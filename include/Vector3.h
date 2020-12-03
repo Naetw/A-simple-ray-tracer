@@ -21,6 +21,10 @@ class Vector3 {
     double y() const { return m_components[1]; }
     double z() const { return m_components[2]; }
 
+    /// Return a Vector3 that all components are in range [0, 1]
+    static Vector3 getRandomVector();
+    static Vector3 getRandomUnitVector();
+
     double length() const;
 
     Vector3 getUnitVector() const;
