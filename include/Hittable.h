@@ -15,8 +15,10 @@ struct HitRecord {
   public:
     ~HitRecord() = default;
 
-    HitRecord() : point(kInfinity, kInfinity, kInfinity) {}
-    HitRecord(const Point3 &p, double t) : point(p.x(), p.y(), p.z()), t(t) {}
+    HitRecord()
+        : point(kInfinity, kInfinity, kInfinity), t(0), normal() {}
+    HitRecord(const Point3 &p, double t, const Material *mp)
+        : point(p.x(), p.y(), p.z()), t(t) {}
 
     /// Set the normal vector against the direction of the given ray based on
     /// the given intersection point
