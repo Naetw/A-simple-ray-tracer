@@ -16,3 +16,7 @@ double getRandomDouble01() {
     static std::uniform_real_distribution<double> uniform(0.0, 1.0);
     return uniform(generator);
 }
+
+double getRandomDoubleInRange(double min, double max) {
+    return min + (max - min) * getRandomDouble01();
+}

@@ -9,12 +9,26 @@ Vector3 Vector3::getRandomVector() {
                    getRandomDouble01());
 }
 
-Vector3 Vector3::getRandomUnitVector() {
-    return getRandomVector().getUnitVector();
+Vector3 Vector3::getRandomVector(double min, double max) {
+    return Vector3(getRandomDoubleInRange(min, max),
+                   getRandomDoubleInRange(min, max),
+                   getRandomDoubleInRange(min, max));
 }
 
+Vector3 Vector3::getRandomVectorInUnitSphere() {
+    while (true) {
+        auto v = getRandomVector(-1, 1);
+        if (v.squaredLength() >= 1) {
+            continue;
+        }
+        return v;
+    }
+}
+
+double Vector3::squaredLength() const { return dot(*this, *this); }
+
 // FIXME: see if this can only be calculated once
-double Vector3::length() const { return sqrt(dot(*this, *this)); }
+double Vector3::length() const { return sqrt(squaredLength()); }
 
 // FIXME: see if this can only be calculated once
 Vector3 Vector3::getUnitVector() const { return *this / length(); }

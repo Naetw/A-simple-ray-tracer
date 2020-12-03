@@ -13,6 +13,14 @@ TEST_CASE("Trival operations (getter)") {
     REQUIRE(v1.z() == 12.02);
 }
 
+TEST_CASE("Method squaredLength") {
+    Vector3 v1(3.0, 4.0, 0.0);
+    Vector3 v2(26.5, -100, 0.4);
+
+    REQUIRE(v1.squaredLength() == 25.0);
+    REQUIRE(v2.squaredLength() == (26.5 * 26.5) + (-100 * -100) + (0.4 * 0.4));
+}
+
 TEST_CASE("Method length") {
     Vector3 v1(3.0, 4.0, 0.0);
     Vector3 v2(26.5, -100, 0.4);

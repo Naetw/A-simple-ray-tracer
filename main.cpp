@@ -31,7 +31,7 @@ Color genRayColor(const Ray &r, const HittableList &world, uint32_t depth) {
         // through picking random points on the unit radius sphere tangent to
         // the hit point.
         const Point3 &target =
-            record.point + record.normal + Vector3::getRandomUnitVector();
+            record.point + record.normal + Vector3::getRandomVectorInUnitSphere();
         return 0.5 * genRayColor(Ray(record.point, target - record.point),
                                  world, depth - 1);
     }

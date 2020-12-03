@@ -14,6 +14,9 @@ const double kInfinity = std::numeric_limits<double>::infinity();
 /// Return a random real in [0,1).
 double getRandomDouble01();
 
+/// Return a random real in [min, max)
+double getRandomDoubleInRange(double min, double max);
+
 /// Clamp value x into range [min, max]
 double clamp(double x, double min, double max);
 
