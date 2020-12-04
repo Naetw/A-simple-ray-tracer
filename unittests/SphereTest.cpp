@@ -5,7 +5,7 @@
 #include "Ray.h"
 
 TEST_CASE("Trivial operation (getter)") {
-    Sphere sphere(Point3(0, 0, 2), 1.0);
+    Sphere sphere(nullptr, Point3(0, 0, 2), 1.0);
 
     REQUIRE(sphere.center().x() == 0);
     REQUIRE(sphere.center().y() == 0);
@@ -26,7 +26,7 @@ TEST_CASE("Method hit") {
     Ray outside_ray(Point3(0, 2, 0), Vector3(0, 0, 1));
     Ray on_ray(Point3(0, 1, 0), Vector3(0, 0, 1));
 
-    Sphere sphere(Point3(0, 0, 2), 1.0);
+    Sphere sphere(nullptr, Point3(0, 0, 2), 1.0);
 
     REQUIRE(sphere.hit(inside_ray) == true);
     REQUIRE(sphere.hit(outside_ray) == false);
@@ -43,7 +43,7 @@ TEST_CASE("Method getHitRecord") {
     Ray outside_ray(Point3(0, 2, 0), Vector3(0, 0, 2));
     Ray on_ray(Point3(0, 1, 0), Vector3(0, 0, 2));
 
-    Sphere sphere(Point3(0, 0, 2), 1.0);
+    Sphere sphere(nullptr, Point3(0, 0, 2), 1.0);
 
     // With maximum valid interval
     const HitRecord &inside_record = sphere.getHitRecord(inside_ray, 0, kInfinity);
@@ -54,6 +54,7 @@ TEST_CASE("Method getHitRecord") {
     REQUIRE(inside_record.point.y() == 0);
     REQUIRE(inside_record.point.z() == 1);
     REQUIRE(inside_record.t == 0.5);
+    REQUIRE(inside_record.material_ptr == nullptr);
     REQUIRE(inside_record.normal.x() == 0);
     REQUIRE(inside_record.normal.y() == 0);
     REQUIRE(inside_record.normal.z() == -1);
@@ -62,6 +63,7 @@ TEST_CASE("Method getHitRecord") {
     REQUIRE(outside_record.point.y() == kInfinity);
     REQUIRE(outside_record.point.z() == kInfinity);
     REQUIRE(outside_record.t == 0);
+    REQUIRE(inside_record.material_ptr == nullptr);
     REQUIRE(outside_record.normal.x() == 0);
     REQUIRE(outside_record.normal.y() == 0);
     REQUIRE(outside_record.normal.z() == 0);
@@ -70,6 +72,7 @@ TEST_CASE("Method getHitRecord") {
     REQUIRE(on_record.point.y() == 1);
     REQUIRE(on_record.point.z() == 2);
     REQUIRE(on_record.t == 1);
+    REQUIRE(inside_record.material_ptr == nullptr);
     REQUIRE(on_record.normal.x() == 0);
     REQUIRE(on_record.normal.y() == -1);
     REQUIRE(on_record.normal.z() == 0);
@@ -80,6 +83,7 @@ TEST_CASE("Method getHitRecord") {
     REQUIRE(record.point.y() == kInfinity);
     REQUIRE(record.point.z() == kInfinity);
     REQUIRE(record.t == 0);
+    REQUIRE(inside_record.material_ptr == nullptr);
     REQUIRE(record.normal.x() == 0);
     REQUIRE(record.normal.y() == 0);
     REQUIRE(record.normal.z() == 0);

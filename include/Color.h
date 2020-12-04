@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+class Albedo;
+
 /// This class stores colors (RGB) 
 class Color {
   private:
@@ -15,7 +17,6 @@ class Color {
 
     Color() : m_pixel{0, 0, 0} {}
     Color(double r, double g, double b) : m_pixel{r, g, b} {}
-    Color(double factor) : m_pixel{factor, factor, factor} {}
     Color(const Vector3 &normal) {
         // use unit vector for normalizing its range into 0.0 ~ 1.0
         const Vector3 &unit_vector = normal.getUnitVector();
@@ -33,7 +34,8 @@ class Color {
 
 Color operator+(const Color &color1, const Color &color2);
 Color operator-(const Color &color1, const Color &color2);
-Color operator*(const Color &factor, const Color &color);
+
+Color operator*(const Albedo &attenuation, const Color &color);
 
 void writeColorToStream(std::ostream &out, const Color &pixel_color,
                         const uint32_t samples_per_pixel);

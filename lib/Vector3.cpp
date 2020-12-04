@@ -1,7 +1,7 @@
 #include "Vector3.h"
 #include "Utility.h"
 
-#include <math.h>
+#include <cmath>
 
 Vector3 Vector3::getRandomVector() {
     return Vector3(getRandomDouble01(),
@@ -33,8 +33,21 @@ double Vector3::length() const { return sqrt(squaredLength()); }
 // FIXME: see if this can only be calculated once
 Vector3 Vector3::getUnitVector() const { return *this / length(); }
 
+bool Vector3::nearZero() const {
+    const auto threshold = 1e-8;
+    return (fabs(m_components[0]) < threshold) &&
+           (fabs(m_components[1]) < threshold) &&
+           (fabs(m_components[2]) < threshold);
+}
+
 Vector3 Vector3::operator-() const {
     return Vector3(-m_components[0], -m_components[1], -m_components[2]);
+}
+
+Vector3 operator+(const Vector3 &v1, const Vector3 &v2) {
+    return Vector3(v1.x() + v2.x(),
+                   v1.y() + v2.y(),
+                   v1.z() + v2.z());
 }
 
 Vector3 operator*(const Vector3 &factor, const Vector3 &vec) {

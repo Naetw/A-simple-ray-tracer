@@ -8,8 +8,8 @@
 /// and there is a ray for testing, it is:
 ///    - origin (0, 0, 0), direction (0, 0, 2)
 TEST_CASE("Method getHitRecord") {
-    std::shared_ptr<Hittable> obj1 = std::make_shared<Sphere>(Point3(0, 0, 2), 1.0);
-    std::shared_ptr<Hittable> obj2 = std::make_shared<Sphere>(Point3(0, 0, 6), 1.0);
+    std::shared_ptr<Hittable> obj1 = std::make_shared<Sphere>(nullptr, Point3(0, 0, 2), 1.0);
+    std::shared_ptr<Hittable> obj2 = std::make_shared<Sphere>(nullptr, Point3(0, 0, 6), 1.0);
     HittableList world;
 
     world.add(obj1);

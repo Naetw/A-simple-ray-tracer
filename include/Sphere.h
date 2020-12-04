@@ -15,7 +15,8 @@ class Sphere : public Hittable {
     ~Sphere() = default;
 
     Sphere() = default;
-    Sphere(const Point3 &c, const double r) : m_center(c), m_radius(r) {}
+    Sphere(const MaterialSharedPtr &msp, const Point3 &c, const double r)
+        : Hittable(msp), m_center(c), m_radius(r) {}
 
     const Point3 &center() const { return m_center; }
     double radius() const { return m_radius; }

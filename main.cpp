@@ -2,6 +2,8 @@
 #include "Color.h"
 #include "Hittable.h"
 #include "HittableList.h"
+#include "Lambertian.h"
+#include "Material.h"
 #include "Point3.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -25,16 +27,14 @@ Color genRayColor(const Ray &r, const HittableList &world, uint32_t depth) {
     // 0.001 for ignoring the hits that the `t` is very close to 0
     const HitRecord &record = world.getHitRecord(r, 0.001, kInfinity);
     if (!record.point.isInfinity()) {
-        // pixel color is determined by the diffuse reflection on the
-        // intersection point
-        //
-        // Diffuse reflection method is Lambertian reflection and it's achieved
-        // through picking random points on the unit radius sphere tangent to
-        // the hit point.
-        const Point3 &target =
-            record.point + record.normal + Vector3::getRandomVectorInUnitSphere();
-        return 0.5 * genRayColor(Ray(record.point, target - record.point),
-                                 world, depth - 1);
+        const Ray &scattered_ray = record.material_ptr->getScatteredRay(r, record);
+        if (!scattered_ray) {
+            // all rays have been absorbed
+            return /* black */ Color(0, 0, 0);
+        }
+        // attenuation determins what proportion of ray being absorbed
+        const Albedo &attenuation = record.material_ptr->getAlbedo();
+        return attenuation * genRayColor(scattered_ray, world, depth - 1);
     }
 
     //
@@ -62,8 +62,12 @@ int main() {
 
     // World
     HittableList world;
-    world.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
-    world.add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100));
+
+    auto ground_material = std::make_shared<Lambertian>(Albedo(0.8, 0.8, 0.0));
+    auto center_material = std::make_shared<Lambertian>(Albedo(0.7, 0.3, 0.3));
+
+    world.add(std::make_shared<Sphere>(center_material, Point3(0, 0, -1), 0.5));
+    world.add(std::make_shared<Sphere>(ground_material, Point3(0, -100.5, -1), 100));
 
     Camera camera(/* origin */ Point3(0, 0, 0), aspect_ratio,
                   /* viewport_height */ 2.0, /* focal_length */ 1.0);

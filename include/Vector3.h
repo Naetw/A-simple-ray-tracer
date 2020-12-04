@@ -36,8 +36,13 @@ class Vector3 {
 
     Vector3 getUnitVector() const;
 
+    /// Return true if the vector is close to 0 in all dimensions
+    bool nearZero() const;
+
     Vector3 operator-() const;
 };
+
+Vector3 operator+(const Vector3 &v1, const Vector3 &v2);
 
 /// Used for scalar multiplication
 /// Warning: this isn't the dot product

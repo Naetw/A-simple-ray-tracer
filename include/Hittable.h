@@ -6,19 +6,24 @@
 #include "Utility.h"
 #include "Vector3.h"
 
+#include <memory>
+
+class Material;
+
 struct HitRecord {
   public:
     Point3 point;
     double t;
+    const Material *material_ptr;
     Vector3 normal;
 
   public:
     ~HitRecord() = default;
 
     HitRecord()
-        : point(kInfinity, kInfinity, kInfinity), t(0), normal() {}
+        : point(kInfinity, kInfinity, kInfinity), t(0), material_ptr(nullptr) {}
     HitRecord(const Point3 &p, double t, const Material *mp)
-        : point(p.x(), p.y(), p.z()), t(t) {}
+        : point(p.x(), p.y(), p.z()), t(t), material_ptr(mp) {}
 
     /// Set the normal vector against the direction of the given ray based on
     /// the given intersection point
@@ -28,8 +33,18 @@ struct HitRecord {
     }
 };
 
+using MaterialSharedPtr = std::shared_ptr<Material>;
+
 class Hittable {
+  private:
+    MaterialSharedPtr material_shared_ptr;
+
   public:
+    ~Hittable() = default;
+
+    Hittable() : material_shared_ptr(nullptr) {}
+    Hittable(const MaterialSharedPtr &msp) : material_shared_ptr(msp) {}
+
     /// Determine whether the passed-in ray hits the Hittable object
     virtual bool hit(const Ray &ray) const = 0;
 
@@ -43,6 +58,10 @@ class Hittable {
     /// if there's no hit point.
     virtual HitRecord getHitRecord(const Ray &ray, double t_min,
                                    double t_max) const = 0;
+
+    const Material *getMaterialPointer() const {
+        return material_shared_ptr.get();
+    }
 };
 
 #endif

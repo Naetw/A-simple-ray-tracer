@@ -1,4 +1,5 @@
 #include "Color.h"
+#include "Albedo.h"
 #include "Utility.h"
 
 #include <cstdint>
@@ -23,10 +24,10 @@ Color operator-(const Color &color1, const Color &color2) {
                  color1.b() - color2.b());
 }
 
-Color operator*(const Color &factor, const Color &color) {
-    return Color(factor.r() * color.r(),
-                 factor.g() * color.g(),
-                 factor.b() * color.b());
+Color operator*(const Albedo &attenuation, const Color &color) {
+    return Color(attenuation.r() * color.r(),
+                 attenuation.g() * color.g(),
+                 attenuation.b() * color.b());
 }
 
 void writeColorToStream(std::ostream &out, const Color &pixel_color, const uint32_t samples_per_pixel) {

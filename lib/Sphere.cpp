@@ -83,7 +83,7 @@ HitRecord Sphere::getHitRecord(const Ray &ray, double t_min,
 
     const Point3 &intersection_point = ray.at(root);
     const Vector3 &outward_normal = (intersection_point - m_center) / m_radius;
-    HitRecord record(intersection_point, root);
+    HitRecord record(intersection_point, root, getMaterialPointer());
     record.setFaceNormalVector(ray, outward_normal);
 
     return record;

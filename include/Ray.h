@@ -20,6 +20,10 @@ class Ray {
     const Vector3 &direction() const { return m_direction; }
 
     Point3 at(double factor) const;
+
+    /// Return true if m_direction is (0, 0, 0) which means that this isn't a
+    /// valid ray.
+    bool operator!() const;
 };
 
 #endif

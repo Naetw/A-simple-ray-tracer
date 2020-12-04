@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch2/catch.hpp"
 
+#include "Albedo.h"
 #include "Color.h"
 
 TEST_CASE("Trival operations (getter)") {
@@ -41,13 +42,13 @@ TEST_CASE("operator- on two colors") {
     REQUIRE(c3.b() == 5.0);
 }
 
-TEST_CASE("operator* on two colors") {
-    Color c1(2, 2, 2);
-    Color c2(0.0, 3.3, 21.59);
+TEST_CASE("operator* on the albedo and a color") {
+    Albedo a(0.5, 0.5, 0.5);
+    Color c(1, 1, 1);
 
-    const Color &c3 = c1 * c2;
-    REQUIRE(c3.r() == 0.0);
-    REQUIRE(c3.g() == 6.6);
-    REQUIRE(c3.b() == 43.18);
+    // only 50% of color has been reflected
+    const Color &reflected_color = a * c;
+    REQUIRE(reflected_color.r() == 0.5);
+    REQUIRE(reflected_color.g() == 0.5);
+    REQUIRE(reflected_color.b() == 0.5);
 }
-

@@ -3,7 +3,7 @@
 
 #include "Vector3.h"
 
-#include <math.h>
+#include <cmath>
 
 TEST_CASE("Trival operations (getter)") {
     Vector3 v1(19.22, -11.13, 12.02);
@@ -36,6 +36,26 @@ TEST_CASE("Method getUnitVector") {
     REQUIRE(v1.getUnitVector().x() == v2.getUnitVector().x());
     REQUIRE(v1.getUnitVector().y() == v2.getUnitVector().y());
     REQUIRE(v1.getUnitVector().z() == v2.getUnitVector().z());
+}
+
+TEST_CASE("Method nearZero") {
+    Vector3 v1(3.0, -4.0, 5.0);
+    Vector3 v2(1e-12, 1e-2, 1e-8);
+    Vector3 v3(1e-12, 1e-12, 1e-14);
+
+    REQUIRE(v1.nearZero() == false);
+    REQUIRE(v2.nearZero() == false);
+    REQUIRE(v3.nearZero() == true);
+}
+
+TEST_CASE("operator+ on two vectors") {
+    Vector3 v1(2, 2, 2);
+    Vector3 v2(0.0, 3.3, 21.59);
+
+    const Vector3 &v3 = v1 + v2;
+    REQUIRE(v3.x() == 2.0);
+    REQUIRE(v3.y() == 5.3);
+    REQUIRE(v3.z() == 23.59);
 }
 
 TEST_CASE("operator- on a vector") {
