@@ -4,6 +4,7 @@
 #include "HittableList.h"
 #include "Lambertian.h"
 #include "Material.h"
+#include "Metal.h"
 #include "Point3.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -65,9 +66,13 @@ int main() {
 
     auto ground_material = std::make_shared<Lambertian>(Albedo(0.8, 0.8, 0.0));
     auto center_material = std::make_shared<Lambertian>(Albedo(0.7, 0.3, 0.3));
+    auto left_material = std::make_shared<Metal>(Albedo(0.8, 0.8, 0.8));
+    auto right_material = std::make_shared<Metal>(Albedo(0.8, 0.6, 0.2));
 
     world.add(std::make_shared<Sphere>(center_material, Point3(0, 0, -1), 0.5));
     world.add(std::make_shared<Sphere>(ground_material, Point3(0, -100.5, -1), 100));
+    world.add(std::make_shared<Sphere>(left_material, Point3(-1, 0, -1), 0.5));
+    world.add(std::make_shared<Sphere>(right_material, Point3(1, 0, -1), 0.5));
 
     Camera camera(/* origin */ Point3(0, 0, 0), aspect_ratio,
                   /* viewport_height */ 2.0, /* focal_length */ 1.0);

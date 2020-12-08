@@ -6,4 +6,5 @@ add_library(raytracer_core STATIC
     Sphere.cpp
     HittableList.cpp
     Utility.cpp
-    Lambertian.cpp)
+    Lambertian.cpp
+    Metal.cpp)
