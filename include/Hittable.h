@@ -16,20 +16,23 @@ struct HitRecord {
     double t;
     const Material *material_ptr;
     Vector3 normal;
+    // represent whether a ray is from outside (true) or inside (false)
+    bool front_face;
 
   public:
     ~HitRecord() = default;
 
     HitRecord()
-        : point(kInfinity, kInfinity, kInfinity), t(0), material_ptr(nullptr) {}
+        : point(kInfinity, kInfinity, kInfinity), t(0), material_ptr(nullptr),
+          front_face(true) {}
     HitRecord(const Point3 &p, double t, const Material *mp)
-        : point(p.x(), p.y(), p.z()), t(t), material_ptr(mp) {}
+        : point(p.x(), p.y(), p.z()), t(t), material_ptr(mp), front_face(true) {}
 
     /// Set the normal vector against the direction of the given ray based on
     /// the given intersection point
     void setFaceNormalVector(const Ray &ray, const Vector3 &outward_normal) {
-        normal = (dot(ray.direction(), outward_normal) < 0) ? outward_normal
-                                                            : -outward_normal;
+        front_face = dot(ray.direction(), outward_normal) < 0;
+        normal = front_face ? outward_normal : -outward_normal;
     }
 };
 

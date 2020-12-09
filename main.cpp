@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Color.h"
+#include "Dielectric.h"
 #include "Hittable.h"
 #include "HittableList.h"
 #include "Lambertian.h"
@@ -66,8 +67,8 @@ int main() {
 
     auto ground_material = std::make_shared<Lambertian>(Albedo(0.8, 0.8, 0.0));
     auto center_material = std::make_shared<Lambertian>(Albedo(0.7, 0.3, 0.3));
-    auto left_material = std::make_shared<Metal>(Albedo(0.8, 0.8, 0.8), /* fuzziness */ 0.3);
-    auto right_material = std::make_shared<Metal>(Albedo(0.8, 0.6, 0.2), /* fuzziness */ 1.0);
+    auto left_material = std::make_shared<Dielectric>(1.5);
+    auto right_material = std::make_shared<Metal>(Albedo(0.8, 0.6, 0.2), /* fuzziness */ 0.0);
 
     world.add(std::make_shared<Sphere>(center_material, Point3(0, 0, -1), 0.5));
     world.add(std::make_shared<Sphere>(ground_material, Point3(0, -100.5, -1), 100));

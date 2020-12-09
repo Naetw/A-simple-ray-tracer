@@ -7,4 +7,5 @@ add_library(raytracer_core STATIC
     HittableList.cpp
     Utility.cpp
     Lambertian.cpp
-    Metal.cpp)
+    Metal.cpp
+    Dielectric.cpp)

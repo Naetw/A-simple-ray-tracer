@@ -24,6 +24,11 @@ class Ray {
     /// Return true if m_direction is (0, 0, 0) which means that this isn't a
     /// valid ray.
     bool operator!() const;
+
+  public:
+    static Vector3 getReflectedRay(const Ray &ray, const Vector3 &normal);
+    static Vector3 getRefractedRay(const Ray &ray, const Vector3 &normal,
+                                   double refraction_ratio);
 };
 
 #endif
