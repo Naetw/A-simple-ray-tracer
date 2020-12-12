@@ -19,6 +19,9 @@ class Dielectric : public Material {
         : Material(Albedo(1.0, 1.0, 1.0)), m_refraction_index(refraction_index) {}
 
     virtual Ray getScatteredRay(const Ray &ray, const HitRecord &record) const override;
+
+  private:
+    static double getReflectance(const double cosine, const double refraction_index);
 };
 
 #endif
