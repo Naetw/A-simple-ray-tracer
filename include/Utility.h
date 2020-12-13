@@ -20,4 +20,7 @@ double getRandomDoubleInRange(double min, double max);
 /// Clamp value x into range [min, max]
 double clamp(double x, double min, double max);
 
+/// Convert degrees into radians
+double convertDegreeIntoRadian(double degrees);
+
 #endif

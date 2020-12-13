@@ -76,7 +76,7 @@ int main() {
     world.add(std::make_shared<Sphere>(right_material, Point3(1, 0, -1), 0.5));
 
     Camera camera(/* origin */ Point3(0, 0, 0), aspect_ratio,
-                  /* viewport_height */ 2.0, /* focal_length */ 1.0);
+                  /* angle_of_vertical_fov */ 90, /* focal_length */ 1.0);
 
     // Render
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";

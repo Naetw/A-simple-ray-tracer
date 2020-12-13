@@ -1,5 +1,8 @@
 #include "Utility.h"
 
+#define _USE_MATH_DEFINES // for C++
+#include <cmath>
+#undef _USE_MATH_DEFINES
 #include <ctime>
 #include <random>
 
@@ -19,4 +22,8 @@ double getRandomDouble01() {
 
 double getRandomDoubleInRange(double min, double max) {
     return min + (max - min) * getRandomDouble01();
+}
+
+double convertDegreeIntoRadian(double degrees) {
+    return (degrees * M_PI) / 180.0;
 }
