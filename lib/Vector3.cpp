@@ -67,3 +67,9 @@ double dot(const Vector3 &u, const Vector3 &v) {
            u.y() * v.y() +
            u.z() * v.z();
 }
+
+Vector3 cross(const Vector3 &u, const Vector3 &v) {
+    return Vector3(u.y() * v.z() - u.z() * v.y(),
+                   u.z() * v.x() - u.x() * v.z(),
+                   u.x() * v.y() - u.y() * v.x());
+}

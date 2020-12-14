@@ -51,5 +51,6 @@ Vector3 operator*(const Vector3 &factor, const Vector3 &vec);
 Vector3 operator/(const Vector3 &vec, const Vector3 &divisor);
 
 double dot(const Vector3 &u, const Vector3 &v);
+Vector3 cross(const Vector3 &u, const Vector3 &v);
 
 #endif

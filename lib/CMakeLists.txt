@@ -8,4 +8,5 @@ add_library(raytracer_core STATIC
     Utility.cpp
     Lambertian.cpp
     Metal.cpp
-    Dielectric.cpp)
+    Dielectric.cpp
+    Camera.cpp)
