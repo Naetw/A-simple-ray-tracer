@@ -33,5 +33,5 @@ Camera::Camera(const Point3 &origin, const Point3 &look_at,
     m_vertical = viewport_height * y_axis;
     m_horizontal = viewport_width * x_axis;
     m_lower_left_corner =
-        origin - (m_vertical / 2) - (m_horizontal / 2) - z_axis;
+        origin - (m_vertical / 2) - (m_horizontal / 2) - focal_length * z_axis ;
 }
