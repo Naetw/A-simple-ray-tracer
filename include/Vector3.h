@@ -27,9 +27,13 @@ class Vector3 {
     /// Return a Vector3 that all components are in range [min, max)
     static Vector3 getRandomVector(double min, double max);
 
-    /// Return a Vector3 that has length < 1 which can be located in an unit
+    /// Return a Vector3 that has length < 1 which can be located within an unit
     /// sphere which origin is at (0, 0, 0)
     static Vector3 getRandomVectorInUnitSphere();
+
+    /// Return a Vector3 that has length < 1 which can be located within an unit
+    /// disk which origin is at (0, 0, 0)
+    static Vector3 getRandomVectorInUnitDisk();
 
     double squaredLength() const;
     double length() const;

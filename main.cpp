@@ -76,9 +76,13 @@ int main() {
     world.add(std::make_shared<Sphere>(left_material, Point3(-1, 0, -1), -0.45));
     world.add(std::make_shared<Sphere>(right_material, Point3(1, 0, -1), 0.5));
 
-    Camera camera(/* origin */ Point3(-2, 2, 1), /* look_at */ Point3(0, 0, -1),
+    Point3 origin(3, 3, 2);
+    Point3 look_at(0, 0, -1);
+
+    Camera camera(origin, look_at,
                   /* view up */ Vector3(0, 1, 0), aspect_ratio,
-                  /* angle_of_vertical_fov */ 20, /* focal_length */ 1.0);
+                  /* angle_of_vertical_fov */ 20, /* aperture */ 2.0,
+                  /* focus_distance */ (origin - look_at).length());
 
     // Render
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";

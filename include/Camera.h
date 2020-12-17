@@ -27,18 +27,23 @@ class Camera {
     Vector3 m_horizontal;
     Point3 m_lower_left_corner;
 
+    // x_axis, y_axis, z_axis MUST be adjusted if the origin
+    // was modified
+    Vector3 m_x_axis;
+    Vector3 m_y_axis;
+    Vector3 m_z_axis;
+
+    double m_lens_radius;
+
   public:
     ~Camera() = default;
 
     Camera(const Point3 &origin, const Point3 &look_at, const Vector3 &view_up,
            const double aspect_ratio,
            const double angle_of_vertical_field_of_view_in_degree,
-           const double focal_length);
+           const double aperture, const double focus_distance);
 
-    Ray getRay(double u, double v) const {
-        return Ray(m_origin, m_lower_left_corner + u * m_horizontal +
-                                 v * m_vertical - m_origin);
-    }
+    Ray getRay(double u, double v) const;
 };
 
 #endif

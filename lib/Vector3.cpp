@@ -25,6 +25,18 @@ Vector3 Vector3::getRandomVectorInUnitSphere() {
     }
 }
 
+Vector3 Vector3::getRandomVectorInUnitDisk() {
+    while (true) {
+        auto v = Vector3(getRandomDoubleInRange(-1, 1),
+                         getRandomDoubleInRange(-1, 1),
+                         0);
+        if (v.squaredLength() >= 1) {
+            continue;
+        }
+        return v;
+    }
+}
+
 double Vector3::squaredLength() const { return dot(*this, *this); }
 
 // FIXME: see if this can only be calculated once
