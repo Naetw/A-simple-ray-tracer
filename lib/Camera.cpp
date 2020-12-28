@@ -2,6 +2,7 @@
 #include "Utility.h"
 
 #include <cmath>
+#include <omp.h>
 
 Camera::Camera(const Point3 &origin, const Point3 &look_at,
                const Vector3 &view_up, const double aspect_ratio,
@@ -117,8 +118,11 @@ void Camera::renderImageToOstream(const int32_t image_width,
 
     for (auto j = image_height - 1; j >= 0; --j) {
         std::cerr << "\rRemaining: " << j << ' ' << std::flush;
-        Color pixel_color;
+        Color pixel_colors[image_width];
 
+        // clang-format off
+        #pragma omp parallel for
+        // clang-format on
         for (int32_t i = 0; i < image_width; ++i) {
             // use multiple samples and random real numbers to blend the colors
             // of adjacent pixels, in this way, we can achieve simple
@@ -127,9 +131,12 @@ void Camera::renderImageToOstream(const int32_t image_width,
                 auto u = (i + getRandomDouble01()) / (image_width - 1);
                 auto v = (j + getRandomDouble01()) / (image_height - 1);
                 const Ray &ray = getRay(u, v);
-                pixel_color += ray.generateRayColor(world, m_max_depth);
+                pixel_colors[i] += ray.generateRayColor(world, m_max_depth);
             }
-            writeColorToOstream(out, pixel_color, m_samples_per_pixel);
+        }
+
+        for (int32_t i = 0; i < image_width; ++i) {
+            writeColorToOstream(out, pixel_colors[i], m_samples_per_pixel);
         }
     }
 }

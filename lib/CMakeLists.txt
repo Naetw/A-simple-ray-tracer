@@ -10,3 +10,6 @@ add_library(raytracer_core STATIC
     Metal.cpp
     Dielectric.cpp
     Camera.cpp)
+
+target_compile_options(raytracer_core PRIVATE -fopenmp)
+target_link_libraries(raytracer_core -fopenmp)
