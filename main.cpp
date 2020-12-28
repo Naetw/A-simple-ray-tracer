@@ -15,44 +15,6 @@
 #include <cstdint>
 #include <iostream>
 
-// FIXME: this should be a method in class Ray. Maybe need a parameter of
-//        object for determining the pixel color
-Color genRayColor(const Ray &r, const HittableList &world, uint32_t depth) {
-    if (depth == 0) {
-        // if we've exceeded the ray bounce limit, no more light is gathered.
-        return /* black */ Color(0, 0, 0);
-    }
-
-    // 0.001 for ignoring the hits that the `t` is very close to 0
-    const HitRecord &record = world.getHitRecord(r, 0.001, kInfinity);
-    if (!record.point.isInfinity()) {
-        const Ray &scattered_ray = record.material_ptr->getScatteredRay(r, record);
-        if (!scattered_ray) {
-            // all rays have been absorbed
-            return /* black */ Color(0, 0, 0);
-        }
-        // attenuation determines how much is the proportion of ray being reflected
-        const Albedo &attenuation = record.material_ptr->getAlbedo();
-        return attenuation * genRayColor(scattered_ray, world, depth - 1);
-    }
-
-    //
-    // background
-    //
-    Color white_color(1.0, 1.0, 1.0);
-    Color blue_color(0.5, 0.7, 1.0);
-
-    auto unit_direction = r.direction().getUnitVector();
-
-    // generated color bases on coordinate y
-    // first, normalize y from -1.0 ~ 1.0 to 0.0 ~ 1.0
-    // then, when normalized y is 1.0, use blue; while 0.0, use white
-    auto t = 0.5 * (unit_direction.y() + 1.0);
-
-    // blend the white and blue
-    return (1.0 - t) * white_color + t * blue_color;
-}
-
 int main() {
 
     // Image
@@ -99,7 +61,7 @@ int main() {
                 auto u = (i + getRandomDouble01()) / (image_width - 1);
                 auto v = (j + getRandomDouble01()) / (image_height - 1);
                 const Ray &ray = camera.getRay(u, v);
-                pixel_color += genRayColor(ray, world, max_depth);
+                pixel_color += ray.generateRayColor(world, max_depth);
             }
 
             writeColorToStream(std::cout, pixel_color, samples_per_pixel);

@@ -1,8 +1,40 @@
 #include "Ray.h"
+#include "HittableList.h"
+#include "Material.h"
 
 #include <cmath>
 
 Point3 Ray::at(double factor) const { return m_origin + factor * m_direction; }
+
+Color Ray::generateRayColor(
+    const HittableList &world, uint32_t depth,
+    std::function<Color(const Ray &)> generateBackgroundColor) const {
+    if (depth == 0) {
+        // if we've exceeded the ray bounce limit, no more light is gathered.
+        return /* black */ Color(0, 0, 0);
+    }
+
+    // 0.001 for ignoring the hits that the `t` is very close to 0
+    const HitRecord &record = world.getHitRecord(*this, 0.001, kInfinity);
+    if (!record.point.isInfinity()) {
+        const Ray &scattered_ray =
+            record.material_ptr->getScatteredRay(*this, record);
+        if (!scattered_ray) {
+            // all rays have been absorbed
+            return /* black */ Color(0, 0, 0);
+        }
+        // attenuation determines how much is the proportion of ray being
+        // reflected
+        const Albedo &attenuation = record.material_ptr->getAlbedo();
+        return attenuation * scattered_ray.generateRayColor(
+                                 world, depth - 1, generateBackgroundColor);
+    }
+
+    //
+    // background
+    //
+    return generateBackgroundColor(*this);
+}
 
 bool Ray::operator!() const { return !(m_direction.squaredLength() != 0); }
 
