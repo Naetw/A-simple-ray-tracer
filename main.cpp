@@ -21,8 +21,6 @@ int main() {
     const auto aspect_ratio = 16.0 / 9.0;
     const int32_t image_width = 400;
     const auto image_height = static_cast<int32_t>(image_width / aspect_ratio);
-    const uint32_t samples_per_pixel = 100;
-    const uint32_t max_depth = 50;
 
     // World
     HittableList world;
@@ -43,28 +41,11 @@ int main() {
 
     Camera camera(origin, look_at,
                   /* view up */ Vector3(0, 1, 0), aspect_ratio,
-                  /* angle_of_vertical_fov */ 20, /* aperture */ 2.0,
-                  /* focus_distance */ (origin - look_at).length());
+                  /* angle_of_vertical_fov */ 20, /* aperture */ 0.1,
+                  /* focus_distance */ 10,
+                  /* samples_per_pixel */ 100,
+                  /* max_depth */ 50);
 
     // Render
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-
-    for (auto j = image_height - 1; j >= 0; --j) {
-        std::cerr << "\rRemaining: " << j << ' ' << std::flush;
-        for (int32_t i = 0; i < image_width; ++i) {
-            Color pixel_color(0, 0, 0);
-
-            // use multiple samples and random real numbers to blend the colors
-            // of adjacent pixels, in this way, we can achieve simple
-            // antialiasing
-            for (uint32_t s = 0; s < samples_per_pixel; ++s) {
-                auto u = (i + getRandomDouble01()) / (image_width - 1);
-                auto v = (j + getRandomDouble01()) / (image_height - 1);
-                const Ray &ray = camera.getRay(u, v);
-                pixel_color += ray.generateRayColor(world, max_depth);
-            }
-
-            writeColorToStream(std::cout, pixel_color, samples_per_pixel);
-        }
-    }
+    camera.renderImageToOstream(image_width, image_height, world, std::cout);
 }

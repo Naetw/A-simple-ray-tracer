@@ -3,7 +3,6 @@
 #include "Utility.h"
 
 #include <cstdint>
-#include <cmath>
 
 Color &Color::operator+=(const Color &other_color) {
     m_pixel[0] += other_color.r();
@@ -28,22 +27,4 @@ Color operator*(const Albedo &attenuation, const Color &color) {
     return Color(attenuation.r() * color.r(),
                  attenuation.g() * color.g(),
                  attenuation.b() * color.b());
-}
-
-void writeColorToStream(std::ostream &out, const Color &pixel_color, const uint32_t samples_per_pixel) {
-    double r = pixel_color.r();
-    double g = pixel_color.g();
-    double b = pixel_color.b();
-
-    // divide the color by # of samples and gamma-correct for gamma=2.0
-    auto scale = 1.0 / samples_per_pixel;
-    auto gamma = 2.0;
-    r = pow(scale * r, 1 / gamma);
-    g = pow(scale * g, 1 / gamma);
-    b = pow(scale * b, 1 / gamma);
-
-    // write the translated [0,255] value of each color component.
-    out << static_cast<uint32_t>(256 * clamp(r, 0.0, 0.999)) << ' '
-        << static_cast<uint32_t>(256 * clamp(g, 0.0, 0.999)) << ' '
-        << static_cast<uint32_t>(256 * clamp(b, 0.0, 0.999)) << '\n';
 }

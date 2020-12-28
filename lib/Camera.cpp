@@ -6,8 +6,10 @@
 Camera::Camera(const Point3 &origin, const Point3 &look_at,
                const Vector3 &view_up, const double aspect_ratio,
                const double angle_of_vertical_field_of_view_in_degree,
-               const double aperture, const double focus_distance)
-    : m_origin(origin), m_lens_radius(aperture / 2) {
+               const double aperture, const double focus_distance,
+               const uint32_t samples_per_pixel, const uint32_t max_depth)
+    : m_origin(origin), m_lens_radius(aperture / 2),
+      m_samples_per_pixel(samples_per_pixel), m_max_depth(max_depth) {
     /*
      *        /|
      *      /  | height
@@ -85,4 +87,49 @@ Ray Camera::getRay(double u, double v) const {
     const Point3 &new_origin = m_origin + offset;
     return Ray(new_origin, m_lower_left_corner + u * m_horizontal +
                                v * m_vertical - new_origin);
+}
+
+// FIXME: the logic of gamma-correct should be extracted as an independent function
+static void writeColorToOstream(std::ostream &out, const Color &pixel_color,
+                                const uint32_t samples_per_pixel) {
+    double r = pixel_color.r();
+    double g = pixel_color.g();
+    double b = pixel_color.b();
+
+    // divide the color by # of samples and gamma-correct for gamma=2.0
+    auto scale = 1.0 / samples_per_pixel;
+    auto gamma = 2.0;
+    r = pow(scale * r, 1 / gamma);
+    g = pow(scale * g, 1 / gamma);
+    b = pow(scale * b, 1 / gamma);
+
+    // write the translated [0,255] value of each color component.
+    out << static_cast<uint32_t>(256 * clamp(r, 0.0, 0.999)) << ' '
+        << static_cast<uint32_t>(256 * clamp(g, 0.0, 0.999)) << ' '
+        << static_cast<uint32_t>(256 * clamp(b, 0.0, 0.999)) << '\n';
+}
+
+void Camera::renderImageToOstream(const int32_t image_width,
+                                  const int32_t image_height,
+                                  const HittableList &world,
+                                  std::ostream &out) const {
+    out << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+    for (auto j = image_height - 1; j >= 0; --j) {
+        std::cerr << "\rRemaining: " << j << ' ' << std::flush;
+        Color pixel_color;
+
+        for (int32_t i = 0; i < image_width; ++i) {
+            // use multiple samples and random real numbers to blend the colors
+            // of adjacent pixels, in this way, we can achieve simple
+            // antialiasing
+            for (uint32_t s = 0; s < m_samples_per_pixel; ++s) {
+                auto u = (i + getRandomDouble01()) / (image_width - 1);
+                auto v = (j + getRandomDouble01()) / (image_height - 1);
+                const Ray &ray = getRay(u, v);
+                pixel_color += ray.generateRayColor(world, m_max_depth);
+            }
+            writeColorToOstream(out, pixel_color, m_samples_per_pixel);
+        }
+    }
 }

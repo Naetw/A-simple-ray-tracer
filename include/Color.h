@@ -3,8 +3,6 @@
 
 #include "Vector3.h"
 
-#include <iostream>
-
 class Albedo;
 
 /// This class stores colors (RGB) 
@@ -36,8 +34,5 @@ Color operator+(const Color &color1, const Color &color2);
 Color operator-(const Color &color1, const Color &color2);
 
 Color operator*(const Albedo &attenuation, const Color &color);
-
-void writeColorToStream(std::ostream &out, const Color &pixel_color,
-                        const uint32_t samples_per_pixel);
 
 #endif

@@ -5,6 +5,10 @@
 #include "Ray.h"
 #include "Vector3.h"
 
+#include <iostream>
+
+class HittableList;
+
 /// This class describes a virtual camera which can be thought as a source of
 /// laser beam. It contains following attributes:
 ///
@@ -35,15 +39,26 @@ class Camera {
 
     double m_lens_radius;
 
+    uint32_t m_samples_per_pixel;
+    uint32_t m_max_depth;
+
   public:
     ~Camera() = default;
 
     Camera(const Point3 &origin, const Point3 &look_at, const Vector3 &view_up,
            const double aspect_ratio,
            const double angle_of_vertical_field_of_view_in_degree,
-           const double aperture, const double focus_distance);
+           const double aperture, const double focus_distance,
+           const uint32_t samples_per_pixel = 100, const uint32_t max_depth = 50);
 
     Ray getRay(double u, double v) const;
+
+    /// Render the image to the specific output stream
+    ///
+    /// FIXME: extend this by specifying the image format in constructor
+    void renderImageToOstream(const int32_t image_width,
+                              const int32_t image_height,
+                              const HittableList &world, std::ostream &out) const;
 };
 
 #endif
