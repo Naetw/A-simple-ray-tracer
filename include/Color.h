@@ -16,6 +16,8 @@ class Color {
     Color() : m_pixel{0, 0, 0} {}
     Color(double r, double g, double b) : m_pixel{r, g, b} {}
     Color(const Vector3 &normal) {
+        // FIXME: maybe use an abstract class which provides common behavior
+        //        for Vector3, Color, Albedo
         // use unit vector for normalizing its range into 0.0 ~ 1.0
         const Vector3 &unit_vector = normal.getUnitVector();
         m_pixel[0] = unit_vector.x();
