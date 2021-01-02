@@ -4,6 +4,9 @@
 
 This is a simple ray tracer project. It's implemented by following "[_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)" book series.
 
+[:construction: WIP :construction:]\
+[Documentation](https://github.com/Naetw/A-simple-ray-tracer/wiki) in wiki page provides some background and additional detailed information. Some of them are not mentioned in the book series. You're highly encouraged to take a look for appreciating the beauty of the ray tracer.
+
 ## Features
 
 Here are the features implemented so far:
